@@ -22,14 +22,11 @@ Plugin 'FelikZ/ctrlp-py-matcher'
 Plugin 'w0rp/ale'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'Raimondi/delimitMate'
 Plugin 'majutsushi/tagbar'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'tpope/vim-obsession'
 Plugin 'fatih/vim-go'
 Plugin 'google/vim-jsonnet'
-Plugin 'tpope/vim-surround'
-Plugin 'honza/vim-snippets'
 Plugin 'psliwka/vim-smoothie'
 Plugin 'Rykka/InstantRst'
 Plugin 'Rykka/riv.vim'
@@ -43,8 +40,6 @@ Plugin 'hashivim/vim-terraform'
 Plugin 'puremourning/vimspector'
 Plugin 'sagi-z/vimspectorpy'
 Plugin 'Shougo/echodoc.vim'
-Plugin 'neoclide/coc.nvim'
-Plugin 'henrybarreto/coc-redocly'
 Plugin 'sindrets/diffview.nvim'
 Plugin 'tpope/vim-repeat'
 Plugin 'ggandor/leap.nvim'
@@ -55,6 +50,11 @@ if !has('nvim')
     Plugin 'skywind3000/asyncrun.vim'
     Plugin 'SirVer/ultisnips'
     Plugin 'tpope/vim-dispatch'
+    Plugin 'honza/vim-snippets'
+    Plugin 'tpope/vim-surround'
+    Plugin 'Raimondi/delimitMate'
+    Plugin 'neoclide/coc.nvim'
+    Plugin 'henrybarreto/coc-redocly'
 else
     Plugin 'nvim-lualine/lualine.nvim'
     Plugin 'nvim-tree/nvim-tree.lua'
@@ -62,7 +62,18 @@ else
     Plugin 'nvim-lua/plenary.nvim'
     Plugin 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
     Plugin 'nvim-treesitter/nvim-treesitter'
+    Plugin 'neovim/nvim-lspconfig'
     Plugin 'preservim/nerdcommenter'
+    Plugin 'hrsh7th/cmp-nvim-lsp'
+    Plugin 'hrsh7th/cmp-buffer'
+    Plugin 'hrsh7th/cmp-path'
+    Plugin 'hrsh7th/cmp-cmdline'
+    Plugin 'hrsh7th/nvim-cmp'
+    Plugin 'L3MON4D3/LuaSnip'
+    Plugin 'saadparwaiz1/cmp_luasnip'
+    Plugin 'windwp/nvim-autopairs'
+    Plugin 'rafamadriz/friendly-snippets'
+    Plugin 'lvimuser/lsp-inlayhints.nvim'
 endif
 """ Removed plugins
 " Plugin 'artur-shaik/vim-javacomplete2'
@@ -112,7 +123,7 @@ set notagrelative
 set ttimeoutlen=50
 set updatetime=300
 let mapleader=";"
-set statusline^=%{coc#status()}
+"set statusline^=%{coc#status()}
 set colorcolumn=""
 set synmaxcol=600
 set re=1
@@ -302,25 +313,25 @@ let g:riv_projects = [project1]
 "au FileType rust nmap <buffer> <leader>rr :YcmCompleter RefactorRename<space>
 "au FileType rust nmap <buffer> <leader>oi :YcmCompleter OrganizeImports<CR>
 
-autocmd FileType rust nnoremap <buffer> <leader>gd <Plug>(coc-definition)
-autocmd FileType rust nnoremap <buffer> <leader>gf <Plug>(coc-type-definition)
-autocmd FileType rust nnoremap <buffer> <leader>gr <Plug>(coc-references)
-autocmd FileType rust nnoremap <buffer> <leader>gm <Plug>(coc-implementation)
-autocmd FileType rust nnoremap <buffer> <leader>fi <Plug>(coc-fix-current)
-autocmd FileType rust nnoremap <buffer> <leader>cl <Plug>(coc-codelens-action)
-autocmd FileType rust nnoremap <buffer> <leader>rr <Plug>(coc-rename)
-autocmd FileType rust nnoremap <buffer> <leader>oi :call CocActionAsync('runCommand', 'editor.action.organizeImport')<CR>
-autocmd FileType rust nnoremap <buffer> <leader>ih :CocCommand document.toggleInlayHint<CR>
+"autocmd FileType rust nnoremap <buffer> <leader>gd <Plug>(coc-definition)
+"autocmd FileType rust nnoremap <buffer> <leader>gf <Plug>(coc-type-definition)
+"autocmd FileType rust nnoremap <buffer> <leader>gr <Plug>(coc-references)
+"autocmd FileType rust nnoremap <buffer> <leader>gm <Plug>(coc-implementation)
+"autocmd FileType rust nnoremap <buffer> <leader>fi <Plug>(coc-fix-current)
+"autocmd FileType rust nnoremap <buffer> <leader>cl <Plug>(coc-codelens-action)
+"autocmd FileType rust nnoremap <buffer> <leader>rr <Plug>(coc-rename)
+"autocmd FileType rust nnoremap <buffer> <leader>oi :call CocActionAsync('runCommand', 'editor.action.organizeImport')<CR>
+"autocmd FileType rust nnoremap <buffer> <leader>ih :CocCommand document.toggleInlayHint<CR>
 
-autocmd FileType python nnoremap <buffer> <leader>gd <Plug>(coc-definition)
-autocmd FileType python nnoremap <buffer> <leader>gf <Plug>(coc-type-definition)
-autocmd FileType python nnoremap <buffer> <leader>gr <Plug>(coc-references)
-autocmd FileType python nnoremap <buffer> <leader>gm <Plug>(coc-implementation)
-autocmd FileType python nnoremap <buffer> <leader>fi <Plug>(coc-fix-current)
-autocmd FileType python nnoremap <buffer> <leader>cl <Plug>(coc-codelens-action)
-autocmd FileType python nnoremap <buffer> <leader>rr <Plug>(coc-rename)
-autocmd FileType python nnoremap <buffer> <leader>oi :call CocActionAsync('runCommand', 'editor.action.organizeImport')<CR>
-autocmd FileType python nnoremap <buffer> <leader>ih :CocCommand document.toggleInlayHint<CR>
+"autocmd FileType python nnoremap <buffer> <leader>gd <Plug>(coc-definition)
+"autocmd FileType python nnoremap <buffer> <leader>gf <Plug>(coc-type-definition)
+"autocmd FileType python nnoremap <buffer> <leader>gr <Plug>(coc-references)
+"autocmd FileType python nnoremap <buffer> <leader>gm <Plug>(coc-implementation)
+"autocmd FileType python nnoremap <buffer> <leader>fi <Plug>(coc-fix-current)
+"autocmd FileType python nnoremap <buffer> <leader>cl <Plug>(coc-codelens-action)
+"autocmd FileType python nnoremap <buffer> <leader>rr <Plug>(coc-rename)
+"autocmd FileType python nnoremap <buffer> <leader>oi :call CocActionAsync('runCommand', 'editor.action.organizeImport')<CR>
+"autocmd FileType python nnoremap <buffer> <leader>ih :CocCommand document.toggleInlayHint<CR>
 
 
 "nnoremap <buffer> <leader>gt :YcmCompleter GoTo<CR>
@@ -333,17 +344,17 @@ autocmd FileType python nnoremap <buffer> <leader>ih :CocCommand document.toggle
 "nnoremap <buffer> <leader>rr :YcmCompleter RefactorRename<space>
 "nnoremap <buffer> <leader>oi :YcmCompleter OrganizeImports<CR>
 
-autocmd FileType go nnoremap <buffer> <leader>gt :GoDef<CR>
-autocmd FileType go nnoremap <buffer> <leader>gd :GoDef<CR>
-autocmd FileType go nnoremap <buffer> <leader>gf :GoDefType<CR>
-autocmd FileType go nnoremap <buffer> <leader>gr :GoReferrers<CR>
-autocmd FileType go nnoremap <buffer> <leader>gm :GoImplements<CR>
-autocmd FileType go nnoremap <buffer> <leader>gy :GoDefType<CR>
-autocmd FileType go nnoremap <buffer> <leader>fi :GoMetaLinter<CR>
-autocmd FileType go nnoremap <buffer> <leader>rr :GoRename<space>
-autocmd FileType go nnoremap <buffer> <leader>oi :GoImport<space>
-autocmd FileType go nnoremap <buffer> <leader>od :GoDrop<space>
-autocmd FileType go nnoremap <buffer> <leader>ge :GoIfErr<CR>
+"autocmd FileType go nnoremap <buffer> <leader>gt :GoDef<CR>
+"autocmd FileType go nnoremap <buffer> <leader>gd :GoDef<CR>
+"autocmd FileType go nnoremap <buffer> <leader>gf :GoDefType<CR>
+"autocmd FileType go nnoremap <buffer> <leader>gr :GoReferrers<CR>
+"autocmd FileType go nnoremap <buffer> <leader>gm :GoImplements<CR>
+"autocmd FileType go nnoremap <buffer> <leader>gy :GoDefType<CR>
+"autocmd FileType go nnoremap <buffer> <leader>fi :GoMetaLinter<CR>
+"autocmd FileType go nnoremap <buffer> <leader>rr :GoRename<space>
+"autocmd FileType go nnoremap <buffer> <leader>oi :GoImport<space>
+"autocmd FileType go nnoremap <buffer> <leader>od :GoDrop<space>
+"autocmd FileType go nnoremap <buffer> <leader>ge :GoIfErr<CR>
 "au filetype go inoremap <buffer> . .<C-x><C-o>
 
 " Typescript
@@ -424,28 +435,28 @@ let g:echodoc#type = 'echo'
 "highlight link EchoDocPopup Pmenu
 "
 " coc.nvim
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-inoremap <silent><expr> <c-@> coc#refresh()
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-highlight CocFloating ctermbg=8
-highlight CocMenuSel ctermbg=0
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-function! s:enable_coc_for_type()
-    let l:filesuffix_whitelist = ['c', 'cpp', 'go', 'rs', 'py', 'yaml']
-	if index(l:filesuffix_whitelist, expand('%:e')) == -1
-		let b:coc_enabled = 0
-	endif
-endfunction
-autocmd BufRead,BufNewFile * call s:enable_coc_for_type()
-
+"inoremap <silent><expr> <TAB>
+"      \ coc#pum#visible() ? coc#pum#next(1) :
+"      \ CheckBackspace() ? "\<Tab>" :
+"      \ coc#refresh()
+"inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"inoremap <silent><expr> <c-@> coc#refresh()
+"function! CheckBackspace() abort
+"  let col = col('.') - 1
+"  return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
+"highlight CocFloating ctermbg=8
+"highlight CocMenuSel ctermbg=0
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+"function! s:enable_coc_for_type()
+"    let l:filesuffix_whitelist = ['c', 'cpp', 'go', 'rs', 'py', 'yaml']
+"	if index(l:filesuffix_whitelist, expand('%:e')) == -1
+"		let b:coc_enabled = 0
+"	endif
+"endfunction
+"autocmd BufRead,BufNewFile * call s:enable_coc_for_type()
+"
 if has('nvim')
     let g:CommandTPreferredImplementation='lua'
     set clipboard+=unnamedplus
@@ -458,7 +469,12 @@ if has('nvim')
     " Clear search highlight
     nnoremap <Leader>/ :noh<cr>
 
-    autocmd CursorHold *.{c,cpp,hpp,hs,py,rs,go,js,ts} if (coc#rpc#ready() && CocHasProvider('hover') && !coc#float#has_float()) | silent call CocActionAsync('doHover') | endif
+"    autocmd CursorHold *.{c,cpp,hpp,hs,py,rs,go,js,ts} if (coc#rpc#ready() && CocHasProvider('hover') && !coc#float#has_float()) | silent call CocActionAsync('doHover') | endif
+"    autocmd BufAdd * if getfsize(expand('<afile>')) > 1 |
+"				\ let b:coc_enabled=0 |
+"				\ endif
 endif
+
+set regexpengine=0
 
 set secure
