@@ -1,9 +1,21 @@
 local lsp = require("lsp-zero")
+lsp.extend_lspconfig()
 
 -- Make LSP tsserver and eslit use latest nodejs version instead of asdf local version
 vim.env.PATH = "/home/heitor/.asdf/installs/nodejs/20.7.0/bin:" .. vim.env.PATH
 
 lsp.preset("recommended")
+
+-- Fix Undefined global 'vim'
+lsp.configure("lua_ls", {
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
+})
 
 require("mason").setup()
 require("mason-lspconfig").setup({
@@ -18,42 +30,18 @@ require("mason-lspconfig").setup({
 	},
 	handlers = {
 		lsp.default_setup,
+		lua_ls = function()
+			local lua_opts = lsp.nvim_lua_ls()
+			require("lspconfig").lua_ls.setup(lua_opts)
+		end,
 	},
 })
 require("mason-nvim-dap").setup()
 
 local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-cmp.setup({
-	preselect = "item",
-	completion = {
-		completeopt = "menu,menuone,noinsert",
-	},
-	snippet = {
-		-- REQUIRED - you must specify a snippet engine
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
-	window = {
-		-- completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<Tab>"] = cmp.mapping.select_next_item(cmp_select),
-		["<S-Tab>"] = cmp.mapping.select_prev_item(cmp_select),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<CR>"] = cmp.mapping.confirm({
-			select = true,
-		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-	}),
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-	}, {
-		{ name = "buffer" },
-	}),
-})
+local cmp_format = require("lsp-zero").cmp_format()
+local cmp_action = require("lsp-zero").cmp_action()
+--local cmp_select = { behavior = cmp.SelectBehavior.Select }
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
@@ -70,6 +58,39 @@ cmp.setup.cmdline(":", {
 	}, {
 		{ name = "cmdline" },
 	}),
+})
+cmp.setup({
+	preselect = "item",
+	completion = {
+		completeopt = "menu,menuone,noinsert",
+	},
+	snippet = {
+		-- REQUIRED - you must specify a snippet engine
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	},
+	mapping = cmp.mapping.preset.insert({
+		--["<Tab>"] = cmp.mapping.select_next_item(cmp_select),
+		--["<S-Tab>"] = cmp.mapping.select_prev_item(cmp_select),
+		["<Tab>"] = cmp_action.luasnip_supertab(),
+		["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<CR>"] = cmp.mapping.confirm({
+			select = true,
+		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	}),
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+	}, {
+		{ name = "buffer" },
+	}),
+	formatting = cmp_format,
 })
 
 
@@ -99,10 +120,14 @@ end)
 
 lsp.setup()
 
+vim.diagnostic.config({
+	virtual_text = true,
+})
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Disable semantic highlighting
-for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
-	vim.api.nvim_set_hl(0, group, {})
-end
+--for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+--	vim.api.nvim_set_hl(0, group, {})
+--end

@@ -13,8 +13,8 @@ require("conform").setup({
 		["*"] = { "trim_whitespace" },
 	},
 	format_on_save = {
-		timeout_ms = 500,
 		lsp_fallback = true,
+		async = true,
 	},
 	notify_on_error = true,
 })
