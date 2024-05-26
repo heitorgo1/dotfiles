@@ -6,6 +6,7 @@ require("lint").linters_by_ft = {
 	sql = { "sqlfluff" },
 	ruby = { "rubocop" },
 	json = { "jsonlint" },
+	proto = { "buf_lint" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {

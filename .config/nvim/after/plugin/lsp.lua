@@ -6,6 +6,8 @@ vim.env.PATH = "/home/heitor/.asdf/installs/nodejs/20.7.0/bin:" .. vim.env.PATH
 
 lsp.preset("recommended")
 
+require("luasnip.loaders.from_vscode").lazy_load()
+
 -- Fix Undefined global 'vim'
 lsp.configure("lua_ls", {
 	settings = {
@@ -27,12 +29,18 @@ require("mason-lspconfig").setup({
 		"pyright",
 		"lua_ls",
 		"solargraph",
+		"clangd",
 	},
 	handlers = {
 		lsp.default_setup,
 		lua_ls = function()
 			local lua_opts = lsp.nvim_lua_ls()
 			require("lspconfig").lua_ls.setup(lua_opts)
+		end,
+		clangd = function()
+			require("lspconfig").clangd.setup({
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+			})
 		end,
 	},
 })
@@ -108,6 +116,17 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
 	vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.rename() end, opts)
 	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+    local ls = require('luasnip')
+    vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+    vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
+    vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
+
+    vim.keymap.set({"i", "s"}, "<C-E>", function()
+        if ls.choice_active() then
+            ls.change_choice(1)
+        end
+    end, {silent = true})
 
     if client.server_capabilities.documentSymbolProvider then
       require('nvim-navic').attach(client, bufnr)

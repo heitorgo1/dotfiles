@@ -119,6 +119,9 @@ alias tf='terraform'
 alias tg='terragrunt'
 alias gping='/home/heitor/.asdf/installs/rust/1.68.2/bin/gping'
 alias nvim='/home/heitor/Applications/nvim.appimage'
+alias tfk8s='/home/heitor/.asdf/installs/golang/1.21.3/packages/bin/tfk8s'
+alias etcher='/home/heitor/Applications/BalenaEtcher/balenaEtcher-1.18.11-x64.AppImage'
+alias kreya='/home/heitor/Applications/Kreya/kreya'
 #alias workon='pyenv activate'
 #alias deactivate='pyenv deactivate'
 # end aliases
@@ -218,8 +221,8 @@ export PATH=$PATH:$HOME/Workspace/go/bin
 export WORKON_HOME=~/.virtualenvs
 #export VIRTUALENVWRAPPER_PYTHON=/home/heitor/.pyenv/shims/python
 # Drone
-export DRONE_SERVER=https://dronev1.admobilize.com
-export DRONE_TOKEN=kvcUnFfVwxkbmX1RpAkXJz5hiCaatErP
+export DRONE_SERVER=https://drone.admobilize.com
+export DRONE_TOKEN=WpEa3laH5DYSqu1xGaSB4vaS10KAJjfm
 # Istio
 export PATH="$PATH:/home/heitor/Workspace/istio-1.5.0/bin"
 # Vault
@@ -239,6 +242,8 @@ export PATH="/opt/jmeter/apache-jmeter-5.4.3/bin:$PATH"
 export PATH="/home/heitor/.rover/bin:$PATH"
 # Rust
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+# Export golang 1.21.3 bins
+export PATH="/home/heitor/.asdf/installs/golang/1.21.3/packages/bin/:$PATH"
 
 # end env variables
 

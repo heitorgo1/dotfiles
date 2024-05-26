@@ -10,7 +10,15 @@ return require("packer").startup(function(use)
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.4",
-		requires = { { "nvim-lua/plenary.nvim" } },
+		requires = {
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-telescope/telescope-live-grep-args.nvim" },
+			{ "debugloop/telescope-undo.nvim" },
+		},
+		config = function()
+			require("telescope").load_extension("live_grep_args")
+			require("telescope").load_extension("undo")
+		end,
 	})
 	use({
 		"EdenEast/nightfox.nvim",
@@ -92,6 +100,7 @@ return require("packer").startup(function(use)
 			"MunifTanjim/nui.nvim",
 		},
 	})
+	use("nvim-neotest/nvim-nio")
 	use("mfussenegger/nvim-dap")
 	use("rcarriga/nvim-dap-ui")
 	use({
@@ -109,4 +118,5 @@ return require("packer").startup(function(use)
 			})
 		end,
 	})
+	use("rafamadriz/friendly-snippets")
 end)
